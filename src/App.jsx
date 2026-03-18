@@ -12,6 +12,7 @@ import SearchResults from './SearchResults.jsx';
 import Checkout from './Checkout.jsx';
 import Landing from './Landing.jsx';
 import Chatbot from './Chatbot.jsx';
+import Translate from './Translate.jsx';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/sos" element={<SOS />} />
             <Route path="/search" element={<SearchResults />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/translate" element={<Translate />} />
           </Routes>
         </main>
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Plane, Train, CarTaxiFront, BedDouble, Search, BadgeAlert, ArrowRight, Sun, RefreshCw, Sparkles, MapPin } from 'lucide-react';
+import { Plane, Train, CarTaxiFront, BedDouble, Search, BadgeAlert, ArrowRight, Sun, RefreshCw, Sparkles, MapPin, ScanSearch } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const QuickAction = ({ icon: Icon, label, color, gradient }) => (
-  <button className="flex flex-col items-center justify-center gap-3 p-4 rounded-3xl transition-all hover:scale-105 shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-white" style={{ background: gradient }}>
+const QuickAction = ({ icon: Icon, label, color, gradient, onClick }) => (
+  <button onClick={onClick} className="flex flex-col items-center justify-center gap-3 p-4 rounded-3xl transition-all hover:scale-105 shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-white" style={{ background: gradient }}>
     <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md shadow-inner text-white">
         <Icon size={28} />
     </div>
@@ -119,10 +119,10 @@ export default function Home() {
         </div>
         
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            <QuickAction icon={Plane} label="Flights" gradient="linear-gradient(135deg, #3B82F6, #2DD4BF)" />
-            <QuickAction icon={Train} label="IRCTC Trains" gradient="linear-gradient(135deg, #8B5CF6, #D946EF)" />
-            <QuickAction icon={CarTaxiFront} label="City Cabs" gradient="linear-gradient(135deg, #F59E0B, #EF4444)" />
-            <QuickAction icon={BedDouble} label="Hotels" gradient="linear-gradient(135deg, #10B981, #059669)" />
+            <QuickAction icon={ScanSearch} label="AI Lens" gradient="linear-gradient(135deg, #FF416C, #FF4B2B)" onClick={() => navigate('/translate')} />
+            <QuickAction icon={Train} label="IRCTC Trains" gradient="linear-gradient(135deg, #8B5CF6, #D946EF)" onClick={() => navigate('/search')} />
+            <QuickAction icon={CarTaxiFront} label="City Cabs" gradient="linear-gradient(135deg, #F59E0B, #EF4444)" onClick={() => navigate('/search')} />
+            <QuickAction icon={BedDouble} label="Hotels" gradient="linear-gradient(135deg, #10B981, #059669)" onClick={() => navigate('/search')} />
         </div>
 
         {/* Popular Destinations */}

@@ -1,84 +1,169 @@
-import React, { useState } from 'react';
-import { CreditCard, CheckCircle2, ChevronLeft } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ShieldCheck, CreditCard, ChevronLeft, Building2, Ticket, Check, MapPin, CalendarClock } from 'lucide-react';
 
 export default function Checkout() {
     const navigate = useNavigate();
-    const [status, setStatus] = useState('review'); // review -> processing -> success
+    const [processing, setProcessing] = useState(false);
+    const [success, setSuccess] = useState(false);
 
-    const handlePay = () => {
-        setStatus('processing');
-        setTimeout(() => setStatus('success'), 2000);
+    const handlePayment = () => {
+        setProcessing(true);
+        setTimeout(() => {
+            setProcessing(false);
+            setSuccess(true);
+        }, 2000);
     };
 
-    if (status === 'success') {
+    if (success) {
         return (
-            <div className="flex flex-col items-center justify-center h-screen bg-success p-6 text-white text-center animate-fade-in">
-                <CheckCircle2 size={64} className="mb-4" />
-                <h1 className="text-3xl font-bold mb-2">Booking Confirmed!</h1>
-                <p className="opacity-90 mb-8">₹1,200 ($14.40) tapped from your secure wallet.</p>
-                <div className="glass-panel p-4 w-full mb-8 text-left bg-white text-gray-900 border-none">
-                     <p className="text-sm font-bold">Vande Bharat Express (20172)</p>
-                     <p className="text-xs text-muted">NDLS (06:00) → AGC (07:50)</p>
-                     <p className="text-xs font-mono font-bold mt-2">PNR: 8123764921</p>
+            <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-[#111827] flex items-center justify-center p-6 relative overflow-hidden">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500 rounded-full mix-blend-screen filter blur-[100px] opacity-40 animate-pulse"></div>
+                
+                <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-10 rounded-[3rem] text-center max-w-sm w-full z-10 shadow-2xl animate-slide-up">
+                    <div className="w-24 h-24 bg-gradient-to-tr from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_50px_rgba(52,211,153,0.5)]">
+                        <Check size={48} className="text-white" strokeWidth={3} />
+                    </div>
+                    <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Booking Confirmed</h2>
+                    <p className="text-emerald-100 font-medium mb-8 opacity-90">Your digital ticket has been issued.</p>
+                    
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-8 backdrop-blur-sm text-left">
+                        <div className="flex justify-between items-center text-sm mb-2 text-gray-300">
+                            <span>Amount Deducted</span>
+                            <span className="font-bold text-white">$45.00</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm mb-2 text-gray-300">
+                            <span>Booking ID</span>
+                            <span className="font-mono text-white tracking-widest">IND-8842-X</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm text-gray-300">
+                            <span>Wallet Balance</span>
+                            <span className="font-bold text-emerald-400">$405.00</span>
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={() => navigate('/explore')}
+                        className="w-full bg-white text-indigo-900 py-4 rounded-full font-black text-lg shadow-[0_10px_20px_rgba(0,0,0,0.2)] hover:scale-105 transition-transform"
+                    >
+                        Back to Dashboard
+                    </button>
                 </div>
-                <button onClick={() => navigate('/')} className="px-6 py-3 bg-white text-success font-bold rounded-full w-full">
-                    Return to Dashboard
-                </button>
             </div>
         );
     }
 
     return (
-        <div className="pb-20 animate-fade-in bg-white min-h-screen relative">
-            <div className="p-6 border-b flex items-center gap-3">
-                <button onClick={() => navigate('/search')}><ChevronLeft size={24} className="text-primary"/></button>
-                <h1 className="text-xl font-bold">Review & Pay</h1>
-            </div>
-
-            <div className="p-6">
-                <div className="bg-gray-50 rounded-xl p-4 border mb-6">
-                    <h2 className="font-bold text-gray-900">Vande Bharat Express</h2>
-                    <p className="text-sm text-muted">New Delhi → Agra Cantt</p>
-                    <div className="flex justify-between mt-4 text-sm font-medium">
-                        <span>Total Fare (2 Adults)</span>
-                        <span className="font-bold">₹1,200 <span className="text-xs text-muted font-normal">($14.40)</span></span>
-                    </div>
-                </div>
-
-                <h3 className="font-bold text-lg mb-4">Payment Method</h3>
-                
-                <div className="border border-primary rounded-xl p-4 shadow-sm mb-4 bg-indigo-50 flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
-                        <CreditCard size={18} />
-                    </div>
-                    <div className="flex-1">
-                        <p className="font-bold text-sm text-primary">Travel Wallet Balance</p>
-                        <p className="text-xs text-primary font-mono">$450.00 <span className="opacity-70">(≈ ₹37,500)</span></p>
-                    </div>
-                    <div className="w-5 h-5 rounded-full border-4 border-primary bg-white"></div>
-                </div>
-
-                <div className="border border-gray-200 rounded-xl p-4 mb-8 flex items-center gap-3 opacity-50">
-                    <div className="w-10 h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center">
-                        <CreditCard size={18} />
-                    </div>
-                    <div className="flex-1">
-                        <p className="font-bold text-sm text-gray-600">Add New Int. Card</p>
-                        <p className="text-xs text-gray-500">2% markup fee</p>
-                    </div>
-                    <div className="w-5 h-5 rounded-full border-2 border-gray-300"></div>
+        <div className="min-h-screen bg-[#F8FAFC] pb-24 font-sans">
+            <div className="bg-indigo-900 p-6 md:p-8 rounded-b-[2.5rem] shadow-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                <div className="max-w-5xl mx-auto relative z-10">
+                    <button onClick={() => navigate('/search')} className="text-indigo-200 mb-6 hover:text-white transition flex items-center gap-2 text-sm font-medium">
+                        <ChevronLeft size={16} /> Back to Search
+                    </button>
+                    <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">Secure Checkout</h1>
                 </div>
             </div>
 
-            <div className="fixed bottom-0 w-full max-w-[480px] bg-white border-t p-4 z-50">
-                <button 
-                   onClick={handlePay}
-                   disabled={status === 'processing'}
-                   className={`btn btn-primary w-full py-3 text-lg transition-all ${status==='processing'?'opacity-70':''}`}
-                >
-                    {status === 'processing' ? 'Processing UPI Request...' : 'Pay $14.40 Securely'}
-                </button>
+            <div className="max-w-5xl mx-auto p-4 md:p-8 mt-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    {/* Order Summary */}
+                    <div className="bg-white rounded-[2rem] p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] border border-gray-100">
+                        <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                            <Ticket className="text-indigo-500" /> Booking Details
+                        </h2>
+                        
+                        <div className="flex flex-col md:flex-row gap-6 mb-8">
+                            <div className="w-full md:w-32 h-32 bg-indigo-50 rounded-2xl overflow-hidden flex items-center justify-center shrink-0">
+                                <Plane size={48} className="text-indigo-300" />
+                            </div>
+                            <div className="flex flex-col justify-center">
+                                <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold uppercase tracking-wider w-max mb-3">IndiGo Air</span>
+                                <h3 className="text-2xl font-black text-gray-900 leading-tight">New Delhi to Agra</h3>
+                                <div className="flex items-center gap-4 mt-3 text-sm font-medium text-gray-500">
+                                    <span className="flex items-center gap-1.5"><CalendarClock size={16}/> Today, 08:30 AM</span>
+                                    <span className="flex items-center gap-1.5"><MapPin size={16}/> Non-Stop</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4 border-t border-gray-100 pt-6">
+                            <div className="flex justify-between items-center text-gray-600 font-medium">
+                                <span>Base Fare</span>
+                                <span>$40.00</span>
+                            </div>
+                            <div className="flex justify-between items-center text-gray-600 font-medium">
+                                <span>Taxes & Airport Fees</span>
+                                <span>$5.00</span>
+                            </div>
+                            <div className="flex justify-between items-center text-indigo-600 font-medium">
+                                <span>Travelos Convenience Fee</span>
+                                <span>$0.00 <span className="text-xs ml-1 px-2 py-0.5 bg-indigo-100 rounded-full">WAIVED</span></span>
+                            </div>
+                            
+                            <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
+                                <span className="text-gray-400 font-bold uppercase tracking-widest text-sm">Total to Pay</span>
+                                <span className="text-3xl font-black text-gray-900">$45.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Payment Engine */}
+                    <div className="bg-gray-900 rounded-[2rem] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.2)] text-white relative overflow-hidden flex flex-col justify-between">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-overlay filter blur-[80px] opacity-40"></div>
+                        
+                        <div className="relative z-10">
+                            <h2 className="text-xl font-bold mb-8 flex items-center gap-3">
+                                <ShieldCheck className="text-emerald-400" size={28} /> Unified Payment Engine
+                            </h2>
+                            
+                            <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Avoid dealing with OTP drops from foreign gateway processors. Your funds are instantly deducted from your pre-loaded Unified Wallet.
+                            </p>
+
+                            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 mb-8 flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center shadow-inner">
+                                        <CreditCard size={20} className="text-white" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-300 font-medium mb-1">Available Wallet Balance</p>
+                                        <p className="text-2xl font-black font-mono tracking-tight">$450.00</p>
+                                    </div>
+                                </div>
+                                <div className="hidden sm:block text-right">
+                                    <p className="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Status</p>
+                                    <p className="text-sm font-medium">Sufficient Funds</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button 
+                            onClick={handlePayment}
+                            disabled={processing}
+                            className={`relative z-10 w-full py-5 rounded-2xl font-black text-lg transition-all shadow-[0_10px_30px_rgba(79,70,229,0.3)] ${
+                                processing ? 'bg-indigo-800 text-indigo-300 cursor-not-allowed scale-95' : 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:shadow-[0_15px_40px_rgba(79,70,229,0.5)] hover:-translate-y-1 active:scale-95'
+                            }`}
+                        >
+                            {processing ? (
+                                <span className="flex items-center justify-center gap-3">
+                                    <svg className="animate-spin h-5 w-5 text-indigo-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Processing Payment Engine...
+                                </span>
+                            ) : (
+                                "Pay $45.00 Now"
+                            )}
+                        </button>
+                        
+                        <p className="text-center text-xs text-gray-500 mt-6 relative z-10 flex items-center justify-center gap-1.5">
+                            <ShieldCheck size={14} /> Bank-grade encryption • 256-bit AES
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );
